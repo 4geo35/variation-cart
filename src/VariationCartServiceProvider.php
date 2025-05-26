@@ -2,6 +2,9 @@
 
 namespace GIS\VariationCart;
 
+use GIS\VariationCart\Helpers\CartActionsManager;
+use GIS\VariationCart\Models\Cart;
+use GIS\VariationCart\Observers\CartObserver;
 use Illuminate\Support\ServiceProvider;
 
 class VariationCartServiceProvider extends ServiceProvider
@@ -25,7 +28,9 @@ class VariationCartServiceProvider extends ServiceProvider
 
     protected function observeModels(): void
     {
-
+        $cartObserverClass = config("variation-cart.customCartObserver") ?? CartObserver::class;
+        $cartModelClass = config("variation-cart.customCartModel") ?? Cart::class;
+        $cartModelClass::observe($cartObserverClass);
     }
 
     protected function addLivewireComponents(): void
@@ -35,6 +40,9 @@ class VariationCartServiceProvider extends ServiceProvider
 
     protected function initFacades(): void
     {
-
+        $this->app->singleton("cart-actions", function () {
+            $cartActionsManagerClass = config("variation-cart.customCartActionsManager") ?? CartActionsManager::class;
+            return new $cartActionsManagerClass();
+        });
     }
 }
