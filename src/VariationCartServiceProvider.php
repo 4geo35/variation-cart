@@ -3,9 +3,11 @@
 namespace GIS\VariationCart;
 
 use GIS\VariationCart\Helpers\CartActionsManager;
+use GIS\VariationCart\Livewire\Web\Catalog\AddVariationToCartWire;
 use GIS\VariationCart\Models\Cart;
 use GIS\VariationCart\Observers\CartObserver;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 
 class VariationCartServiceProvider extends ServiceProvider
 {
@@ -35,7 +37,11 @@ class VariationCartServiceProvider extends ServiceProvider
 
     protected function addLivewireComponents(): void
     {
-
+        $component = config("variation-cart.customAddVariationToCartComponent");
+        Livewire::component(
+            "vc-add-variation-to-cart",
+            $component ?? AddVariationToCartWire::class
+        );
     }
 
     protected function initFacades(): void

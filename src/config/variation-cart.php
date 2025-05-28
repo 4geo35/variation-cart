@@ -5,8 +5,11 @@ return [
     "enableCart" => true,
     "showDiscount" => true,
 
-    // Cart
+    // Admin
     "customCartModel" => null,
     "customCartActionsManager" => null,
     "customCartObserver" => null,
+
+    // Components
+    "customAddVariationToCartComponent" => null,
 ];
