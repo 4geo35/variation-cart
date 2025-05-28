@@ -12,4 +12,5 @@ return [
 
     // Components
     "customAddVariationToCartComponent" => null,
+    "customCartIcoComponent" => null,
 ];
