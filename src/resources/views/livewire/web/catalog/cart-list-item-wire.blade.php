@@ -17,7 +17,7 @@
                     </a>
                 </div>
                 <div class="text-secondary">{{ $item->variation->title }}</div>
-                <button type="button" class="text-danger hover:text-danger-hover inline-flex" wire:click="removeItem">
+                <button type="button" class="text-danger hover:text-danger-hover inline-flex cursor-pointer" wire:click="removeItem">
                     <x-tt::ico.trash /> <span class="pl-1">Удалить</span>
                 </button>
             </div>

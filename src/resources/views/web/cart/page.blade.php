@@ -10,7 +10,7 @@
                     <livewire:vc-cart-list />
                 </div>
                 <div class="col w-1/3">
-                    Info
+                    <livewire:vc-cart-info />
                 </div>
             </div>
         @else
