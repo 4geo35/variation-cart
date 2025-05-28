@@ -19,4 +19,7 @@ return [
     // Components
     "customAddVariationToCartComponent" => null,
     "customCartIcoComponent" => null,
+    "customCartListComponent" => null,
+    "customCartListItemComponent" => null,
+    "customCartInfoComponent" => null,
 ];

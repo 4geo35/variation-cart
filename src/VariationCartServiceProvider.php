@@ -5,6 +5,8 @@ namespace GIS\VariationCart;
 use GIS\VariationCart\Helpers\CartActionsManager;
 use GIS\VariationCart\Livewire\Web\Catalog\AddVariationToCartWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartIcoWire;
+use GIS\VariationCart\Livewire\Web\Catalog\CartListItemWire;
+use GIS\VariationCart\Livewire\Web\Catalog\CartListWire;
 use GIS\VariationCart\Models\Cart;
 use GIS\VariationCart\Observers\CartObserver;
 use Illuminate\Support\ServiceProvider;
@@ -48,6 +50,18 @@ class VariationCartServiceProvider extends ServiceProvider
         Livewire::component(
             "vc-cart-ico",
             $component ?? CartIcoWire::class
+        );
+
+        $component = config("variation-cart.customCartListComponent");
+        Livewire::component(
+            "vc-cart-list",
+            $component ?? CartListWire::class
+        );
+
+        $component = config("variation-cart.customCartListItemComponent");
+        Livewire::component(
+            "vc-cart-list-item",
+            $component ?? CartListItemWire::class
         );
     }
 
