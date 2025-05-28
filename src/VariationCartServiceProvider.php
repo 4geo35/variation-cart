@@ -8,6 +8,7 @@ use GIS\VariationCart\Livewire\Web\Catalog\CartIcoWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartInfoWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartListItemWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartListWire;
+use GIS\VariationCart\Livewire\Web\Catalog\CheckoutWire;
 use GIS\VariationCart\Models\Cart;
 use GIS\VariationCart\Observers\CartObserver;
 use Illuminate\Support\ServiceProvider;
@@ -69,6 +70,12 @@ class VariationCartServiceProvider extends ServiceProvider
         Livewire::component(
             "vc-cart-info",
             $component ?? CartInfoWire::class
+        );
+
+        $component = config("variation-cart.customCheckoutComponent");
+        Livewire::component(
+            "vc-checkout",
+            $component ?? CheckoutWire::class
         );
     }
 

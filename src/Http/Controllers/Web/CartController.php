@@ -23,6 +23,7 @@ class CartController extends Controller
         if ($cartInfo->count <= 0) {
             return redirect()->route("web.cart");
         }
-        return view("vc::web.cart.checkout");
+        $metas = MetaActions::renderByPage("checkout");
+        return view("vc::web.cart.checkout", compact("metas"));
     }
 }

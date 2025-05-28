@@ -10,6 +10,7 @@ return [
     "useBreadcrumbs" => true,
     "useH1" => true,
     "cartPageTitle" => "Корзина",
+    "checkoutPageTitle" => "Оформление заказа",
 
     // Admin
     "customCartModel" => null,
@@ -22,4 +23,5 @@ return [
     "customCartListComponent" => null,
     "customCartListItemComponent" => null,
     "customCartInfoComponent" => null,
+    "customCheckoutComponent" => null,
 ];
