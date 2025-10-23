@@ -13,18 +13,20 @@ class AddVariationToCartWire extends Component
 {
     use InitFirstVariation;
 
-    public ProductInterface $product;
-    public int $quantity = 1;
+    public int $quantity = 0;
 
     public function mount(): void
     {
         $this->setFirstVariation();
+        if ($this->variationId) {
+            $this->quantity = CartActions::getCartItemQuantity($this->variationId);
+        }
     }
 
     public function updated($property, $value): void
     {
         if ($property === 'quantity' && $value <= 0) {
-            $this->quantity = 1;
+            $this->quantity = 0;
         }
     }
 
@@ -34,26 +36,38 @@ class AddVariationToCartWire extends Component
     }
 
     #[On("switch-variation")]
-    public function setVariation(int $id): void
+    public function setVariation(int $variationId, int $productId): void
     {
-        $this->variation = $this->variations->find($id);
-        $this->variationId = $id;
+        if ($this->product->id !== $productId) { return; }
+        $this->reset("quantity", "variationId");
+        $this->variation = $this->variations->find($variationId);
+        if (! $this->variation) { return; }
+        $this->variationId = $variationId;
+        $this->quantity = CartActions::getCartItemQuantity($variationId);
     }
 
     public function increaseQuantity(): void
     {
         $this->quantity++;
+        CartActions::changeQuantity($this->variation, $this->quantity);
+        $this->dispatch("change-cart");
     }
 
     public function decreaseQuantity(): void
     {
-        if ($this->quantity > 1) $this->quantity--;
+        $this->quantity--;
+        if ($this->quantity <= 0) {
+            CartActions::deleteItem($this->variation);
+        } else {
+            CartActions::changeQuantity($this->variation, $this->quantity);
+        }
+        $this->dispatch("change-cart");
     }
 
     public function addToCart(): void
     {
-        CartActions::addToCart($this->variation, $this->quantity);
-        $this->reset(["quantity"]);
+        $cart = CartActions::addToCart($this->variation);
+        $this->quantity = $cart->lastQuantity ?? 0;
         $this->dispatch("change-cart");
     }
 }

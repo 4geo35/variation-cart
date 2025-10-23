@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @method static object getCartInfo(CartInterface $cart = null)
  * @method static array|null getCartItems(CartInterface $cart = null)
+ * @method static int getCartItemQuantity(int $variationId, CartInterface $cart = null)
  *
  * @method static void setCookie(CartInterface $cart)
  * @method static void forgetCookie()

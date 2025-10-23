@@ -50,7 +50,8 @@ class CartActionsManager
             $variation->id => ["quantity" => $quantity]
         ]);
         $this->recalculateTotal($cart);
-        session()->flash("addToCart-success", "Товар добавлен в корзину");
+        $cart->lastQuantity = $quantity;
+//        session()->flash("addToCart-success", "Товар добавлен в корзину");
         return $cart;
     }
 
@@ -71,6 +72,7 @@ class CartActionsManager
             $variation->id => ["quantity" => $quantity]
         ]);
         $this->recalculateTotal($cart);
+        $cart->lastQuantity = $quantity;
         return $cart;
     }
 
@@ -175,6 +177,23 @@ class CartActionsManager
         return $items;
     }
 
+    public function getCartItemQuantity(int $variationId, CartInterface $cart = null): int
+    {
+        if (empty($cart)) $cart = $this->getCart();
+        if (! $cart) return 0;
+
+        $list = Cache::rememberForever("cart-actions-getCartItemQuantity:{$cart->id}", function () use ($cart) {
+            $collection = $cart->variations()->select("id", "quantity")->get();
+            $array = [];
+            foreach ($collection as $item) {
+                $array[$item->id] = $item->quantity;
+            }
+            return $array;
+        });
+        if (! empty($list[$variationId])) { return $list[$variationId]; }
+        else return 0;
+    }
+
     public function setCookie(CartInterface $cart): void
     {
         if (Auth::check() && $cart->user_id !== Auth::id()) return;
@@ -197,6 +216,8 @@ class CartActionsManager
         if (! empty($userId)) Cache::forget("cart-actions-cartByUserId:{$userId}");
 
         Cache::forget("cart-actions-cartInfo:{$uuid}");
+
+        Cache::forget("cart-actions-getCartItemQuantity:{$uuid}");
     }
 
     protected function findCartByAuth(): ?CartInterface
