@@ -24,4 +24,9 @@ return [
     "customCartListItemComponent" => null,
     "customCartInfoComponent" => null,
     "customCheckoutComponent" => null,
+
+    // Templates
+    "templates" => [
+        "cart-teaser" => \GIS\VariationCart\Templates\CartTeaser::class,
+    ],
 ];

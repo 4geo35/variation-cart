@@ -160,7 +160,6 @@ class CartActionsManager
                 "product" => (object) [
                     "model" => $product,
                     "title" => $product->title,
-                    "imgUrl" => $product->cover ? route("thumb-img", ["template" => "small", "filename" => $product->cover->file_name]) : null,
                 ],
                 "variation" => (object) [
                     "model" => $variation,

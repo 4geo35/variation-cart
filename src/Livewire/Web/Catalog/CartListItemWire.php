@@ -25,7 +25,8 @@ class CartListItemWire extends Component
 
     public function render(): View
     {
-        return view('vc::livewire.web.catalog.cart-list-item-wire');
+        $product = $this->item->product->model;
+        return view('vc::livewire.web.catalog.cart-list-item-wire', compact('product'));
     }
 
     public function increaseQuantity(): void

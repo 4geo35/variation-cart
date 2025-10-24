@@ -2,6 +2,7 @@
 
 namespace GIS\VariationCart;
 
+use GIS\Fileable\Traits\ExpandTemplatesTrait;
 use GIS\VariationCart\Helpers\CartActionsManager;
 use GIS\VariationCart\Livewire\Web\Catalog\AddVariationToCartWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartIcoWire;
@@ -16,11 +17,14 @@ use Livewire\Livewire;
 
 class VariationCartServiceProvider extends ServiceProvider
 {
+    use ExpandTemplatesTrait;
+
     public function boot(): void
     {
-        $this->observeModels();
         $this->loadViewsFrom(__DIR__ . "/resources/views", "vc");
         $this->addLivewireComponents();
+        $this->expandConfiguration();
+        $this->observeModels();
     }
 
     public function register(): void
@@ -85,5 +89,11 @@ class VariationCartServiceProvider extends ServiceProvider
             $cartActionsManagerClass = config("variation-cart.customCartActionsManager") ?? CartActionsManager::class;
             return new $cartActionsManagerClass();
         });
+    }
+
+    protected function expandConfiguration(): void
+    {
+        $vc = app()->config["variation-cart"];
+        $this->expandTemplates($vc);
     }
 }
