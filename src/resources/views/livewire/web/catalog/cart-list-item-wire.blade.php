@@ -1,4 +1,4 @@
-<div class="pb-indent-half border-b border-stroke">
+<div class="pb-indent border-b border-stroke">
     <div class="row">
         <div class="col w-2/3">
             <div class="flex items-start justify-start">

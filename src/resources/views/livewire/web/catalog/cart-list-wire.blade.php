@@ -11,7 +11,7 @@
     @if (empty($items))
         <div>Корзина пуста <a href="{{ route('web.catalog') }}" class="text-primary hover:text-primary-hover">за покупками</a></div>
     @else
-        <div class="flex flex-col gap-y-indent-half">
+        <div class="flex flex-col gap-y-indent">
             @foreach($items as $item)
                 <livewire:vc-cart-list-item :key="$item->id" :item="$item" />
             @endforeach
