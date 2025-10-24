@@ -1,4 +1,4 @@
-<div class="space-y-indent-half">
+<div class="space-y-indent-half mb-indent">
     <x-tt::notifications.success prefix="deleteCartItem-" />
     <x-tt::notifications.error prefix="deleteCartItem-" />
 

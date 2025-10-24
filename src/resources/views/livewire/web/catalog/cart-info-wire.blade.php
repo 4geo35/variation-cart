@@ -1,7 +1,7 @@
-<div class="bg-white rounded-base ml-indent p-indent space-y-indent">
+<div class="bg-white rounded-base lg:ml-indent p-indent space-y-indent">
     <div class="flex justify-between items-end">
         <x-tt::h3>Ваша корзина</x-tt::h3>
-        <div class="text-body/60">{{ $info->count }} {{ $info->productHuman }}</div>
+        <div class="text-body/60 text-nowrap">{{ $info->count }} {{ $info->productHuman }}</div>
     </div>
 
     <div class="space-y-indent-half">
@@ -13,7 +13,7 @@
         @if (config("variation-cart.showDiscount") && $info->discount > 0)
             <div class="flex justify-between items-end">
                 <div class="text-body/60">Скидка</div>
-                <div class="text-xl font-semibold text-boy/60">{{ $info->humanDiscount }} р.</div>
+                <div class="text-xl font-semibold text-body/60">{{ $info->humanDiscount }} р.</div>
             </div>
         @endif
     </div>

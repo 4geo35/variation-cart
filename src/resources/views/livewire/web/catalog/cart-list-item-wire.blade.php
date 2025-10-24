@@ -1,6 +1,6 @@
 <div class="pb-indent border-b border-stroke">
     <div class="row">
-        <div class="col w-2/3">
+        <div class="col w-full sm:w-2/3">
             <div class="flex items-start justify-start">
                 <a href="{{ route('web.product', ["product" => $product]) }}" class="block w-[122px] h-[122px] mr-indent shrink-0">
                     @if ($product->cover)
@@ -11,16 +11,16 @@
                     </span>
                     @endif
                 </a>
-                <div class="space-y-indent">
+                <div class="">
                     <a href="{{ route('web.product', ["product" => $product]) }}" class="inline-block text-h5-mobile sm:text-h5 hover:text-primary-hover">
                         {{ $item->product->title }}
                     </a>
 
-                    <div class="text-body/60">{{ $item->variation->title }}</div>
+                    <div class="text-body/60 mt-indent-half">{{ $item->variation->title }}</div>
 
-                    <div class="flex items-center justify-start space-x-indent">
+                    <div class="flex flex-wrap items-center justify-start space-x-indent">
                         @includeIf("pf::web.favorite.text-switcher")
-                        <button type="button" class="inline-flex items-center cursor-pointer text-lg hover:text-danger-hover space-x-2"
+                        <button type="button" class="inline-flex items-center cursor-pointer text-lg hover:text-danger-hover space-x-2 mt-indent-half"
                                 wire:click="removeItem">
                             <span class="text-danger"><x-tt::ico.trash /></span> <span>Удалить</span>
                         </button>
@@ -29,14 +29,14 @@
             </div>
         </div>
 
-        <div class="col w-1/3">
-            <div class="flex flex-col justify-between items-end h-full space-y-indent-half">
+        <div class="col w-full sm:w-1/3">
+            <div class="flex sm:flex-col justify-between items-center sm:items-end h-full space-y-indent-half my-indent-half sm:my-0">
                 <div>
-                    <div class="text-h3-mobile sm:text-h3 font-semibold">
+                    <div class="text-h3-mobile xl:text-h3 font-semibold">
                         {{ $item->variation->humanTotal }} р.
                     </div>
                     @if ($item->variation->sale)
-                        <div class="mt-2 text-h4-mobile sm:text-h4 font-semibold line-through text-body/60 text-right">
+                        <div class="mt-2 text-h4-mobile xl:text-h4 font-semibold line-through text-body/60 sm:text-right">
                             {{ $item->variation->humanOldTotal }} р.
                         </div>
                     @endif
