@@ -14,7 +14,7 @@
 
         <div>
 
-            <input type="text" id="email" placeholder="Email"
+            <input type="email" id="email" placeholder="Email"
                    class="form-control {{ $errors->has("email") ? "border-danger" : "" }}"
                    wire:loading.attr="disabled"
                    wire:model="email">
