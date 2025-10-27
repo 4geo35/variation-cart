@@ -3,6 +3,11 @@
         <x-tt::notifications.error />
         <x-tt::notifications.success />
 
+        <div class="m-0 h-0 w-0 overflow-hidden">
+            <input type="text" class="form-control" wire:model="hidden">
+            <x-tt::form.error name="hidden"/>
+        </div>
+
         <div>
             <input type="text" id="name" placeholder="Имя*"
                    class="form-control {{ $errors->has("name") ? "border-danger" : "" }}"
