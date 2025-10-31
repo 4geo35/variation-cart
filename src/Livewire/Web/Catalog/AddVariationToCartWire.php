@@ -49,7 +49,8 @@ class AddVariationToCartWire extends Component
     public function increaseQuantity(): void
     {
         $this->quantity++;
-        CartActions::changeQuantity($this->variation, $this->quantity);
+        $cart = CartActions::changeQuantity($this->variation, $this->quantity);
+        $this->quantity = $cart->lastQuantity ?? 0;
         $this->dispatch("change-cart");
     }
 
@@ -59,7 +60,8 @@ class AddVariationToCartWire extends Component
         if ($this->quantity <= 0) {
             CartActions::deleteItem($this->variation);
         } else {
-            CartActions::changeQuantity($this->variation, $this->quantity);
+            $cart = CartActions::changeQuantity($this->variation, $this->quantity);
+            $this->quantity = $cart->lastQuantity ?? 0;
         }
         $this->dispatch("change-cart");
     }

@@ -9,16 +9,18 @@ class CartListItemWire extends Component
 {
     public object $item;
     public int $quantity = 1;
+    public int $minimal;
 
     public function mount(): void
     {
+        $this->minimal = $this->item->variation->minimalOrder ?? 1;
         $this->setRealQuantity();
     }
 
     public function updated($property, $value): void
     {
         if ($property === "quantity") {
-            if ($value <= 0) $this->quantity = 1;
+            if ($value < $this->minimal) $this->quantity = $this->minimal;
             $this->updateQuantity();
         }
     }
@@ -37,7 +39,7 @@ class CartListItemWire extends Component
 
     public function decreaseQuantity(): void
     {
-        if ($this->quantity > 1) {
+        if ($this->quantity > $this->minimal) {
             $this->quantity--;
             $this->updateQuantity();
         }

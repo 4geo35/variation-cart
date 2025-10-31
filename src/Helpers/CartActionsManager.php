@@ -45,6 +45,7 @@ class CartActionsManager
             ->where("product_variation_id", $variation->id)
             ->first();
         if ($oldQuantity) $quantity += $oldQuantity->quantity;
+        elseif ($variation->minimal_order && ($quantity < $variation->minimal_order)) $quantity = $variation->minimal_order;
 
         $cart->variations()->syncWithoutDetaching([
             $variation->id => ["quantity" => $quantity]
@@ -65,6 +66,12 @@ class CartActionsManager
         if (! $variation->published_at) {
             session()->flash("changeQuantity-error", "Товар закончился");
             $this->deleteItem($variation, $cart);
+            $cart->lastQuantity = 0;
+            return $cart;
+        }
+        if ($variation->minimal_order && ($quantity < $variation->minimal_order)) {
+            $this->deleteItem($variation, $cart);
+            $cart->lastQuantity = 0;
             return $cart;
         }
 
@@ -170,6 +177,7 @@ class CartActionsManager
                     "humanOldTotal" => $variation->human_cart_old_total,
                     "sale" => (bool) $variation->sale,
                     "unit" => $variation->unit_text,
+                    "minimalOrder" => $variation->minimal_order,
                 ],
                 "quantity" => $variation->pivot->quantity,
             ];
