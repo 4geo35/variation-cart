@@ -147,7 +147,7 @@ class CartActionsManager
         $items = [];
         $collection = $cart->variations()
             ->leftJoin("products", "product_variations.product_id", "=", "products.id")
-            ->with("product", "product.cover")
+            ->with("product", "product.cover", "unit:id,title")
             ->orderBy("price")
             ->orderBy("products.title")
             ->get();
@@ -169,6 +169,7 @@ class CartActionsManager
                     "oldTotal" => $variation->cart_old_total,
                     "humanOldTotal" => $variation->human_cart_old_total,
                     "sale" => (bool) $variation->sale,
+                    "unit" => $variation->unit_text,
                 ],
                 "quantity" => $variation->pivot->quantity,
             ];

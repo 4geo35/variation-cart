@@ -33,7 +33,7 @@
             <div class="flex sm:flex-col justify-between items-center sm:items-end h-full space-y-indent-half my-indent-half sm:my-0">
                 <div>
                     <div class="text-h3-mobile xl:text-h3 font-semibold">
-                        {{ $item->variation->humanTotal }} р.
+                        {{ $item->variation->humanTotal }} р. <span class="text-body/60 text-base">/ {{ $item->variation->unit }}</span>
                     </div>
                     @if ($item->variation->sale)
                         <div class="mt-2 text-h4-mobile xl:text-h4 font-semibold line-through text-body/60 sm:text-right">
