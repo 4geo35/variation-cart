@@ -19,22 +19,23 @@ class VariationCartServiceProvider extends ServiceProvider
 {
     use ExpandTemplatesTrait;
 
-    public function boot(): void
-    {
-        $this->loadViewsFrom(__DIR__ . "/resources/views", "vc");
-        $this->addLivewireComponents();
-        $this->expandConfiguration();
-        $this->observeModels();
-    }
-
     public function register(): void
     {
         $this->loadMigrationsFrom(__DIR__ . "/database/migrations");
-        $this->loadRoutesFrom(__DIR__ . "/routes/web.php");
-        $this->mergeConfigFrom(
-            __DIR__ . "/config/variation-cart.php", "variation-cart"
-        );
+        $this->mergeConfigFrom(__DIR__ . "/config/variation-cart.php", "variation-cart");
+
         $this->initFacades();
+    }
+
+    public function boot(): void
+    {
+        $this->loadViewsFrom(__DIR__ . "/resources/views", "vc");
+        $this->loadRoutesFrom(__DIR__ . "/routes/web.php");
+
+        $this->expandConfiguration();
+        $this->observeModels();
+        
+        $this->addLivewireComponents();
     }
 
     protected function observeModels(): void
