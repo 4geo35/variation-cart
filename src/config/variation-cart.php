@@ -12,6 +12,9 @@ return [
     "cartPageTitle" => "Корзина",
     "checkoutPageTitle" => "Оформление заказа",
 
+    // Listeners
+    "customRemoveDeletedVariationFromCartsListener" => null,
+
     // Admin
     "customCartModel" => null,
     "customCartActionsManager" => null,

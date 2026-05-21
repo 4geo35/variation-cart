@@ -3,7 +3,9 @@
 namespace GIS\VariationCart;
 
 use GIS\Fileable\Traits\ExpandTemplatesTrait;
+use GIS\ProductVariation\Events\VariationDeletedEvent;
 use GIS\VariationCart\Helpers\CartActionsManager;
+use GIS\VariationCart\Listeners\RemoveDeletedVariationFromCartsListener;
 use GIS\VariationCart\Livewire\Web\Catalog\AddVariationToCartWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartIcoWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartInfoWire;
@@ -12,6 +14,7 @@ use GIS\VariationCart\Livewire\Web\Catalog\CartListWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CheckoutWire;
 use GIS\VariationCart\Models\Cart;
 use GIS\VariationCart\Observers\CartObserver;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 
@@ -34,8 +37,10 @@ class VariationCartServiceProvider extends ServiceProvider
 
         $this->expandConfiguration();
         $this->observeModels();
-        
+
         $this->addLivewireComponents();
+
+        $this->listenEvents();
     }
 
     protected function observeModels(): void
@@ -96,5 +101,11 @@ class VariationCartServiceProvider extends ServiceProvider
     {
         $vc = app()->config["variation-cart"];
         $this->expandTemplates($vc);
+    }
+
+    protected function listenEvents(): void
+    {
+        $listenerClass = config("variation-cart.customRemoveDeletedVariationFromCartsListener") ?? RemoveDeletedVariationFromCartsListener::class;
+        Event::listen(VariationDeletedEvent::class, $listenerClass);
     }
 }
