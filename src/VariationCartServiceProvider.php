@@ -4,8 +4,10 @@ namespace GIS\VariationCart;
 
 use GIS\Fileable\Traits\ExpandTemplatesTrait;
 use GIS\ProductVariation\Events\VariationDeletedEvent;
+use GIS\ProductVariation\Events\VariationUnpublishedEvent;
 use GIS\VariationCart\Helpers\CartActionsManager;
 use GIS\VariationCart\Listeners\RemoveDeletedVariationFromCartsListener;
+use GIS\VariationCart\Listeners\RemoveUnpublishedVariationFromCartsListener;
 use GIS\VariationCart\Livewire\Web\Catalog\AddVariationToCartWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartIcoWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartInfoWire;
@@ -107,5 +109,8 @@ class VariationCartServiceProvider extends ServiceProvider
     {
         $listenerClass = config("variation-cart.customRemoveDeletedVariationFromCartsListener") ?? RemoveDeletedVariationFromCartsListener::class;
         Event::listen(VariationDeletedEvent::class, $listenerClass);
+
+        $listenerClass = config("variation-cart.RemoveUnpublishedVariationFromCartsListener") ?? RemoveUnpublishedVariationFromCartsListener::class;
+        Event::listen(VariationUnpublishedEvent::class, $listenerClass);
     }
 }

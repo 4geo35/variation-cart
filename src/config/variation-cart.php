@@ -14,6 +14,7 @@ return [
 
     // Listeners
     "customRemoveDeletedVariationFromCartsListener" => null,
+    "RemoveUnpublishedVariationFromCartsListener" => null,
 
     // Admin
     "customCartModel" => null,
