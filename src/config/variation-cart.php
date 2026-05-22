@@ -17,6 +17,7 @@ return [
     "customRemoveDeletedVariationFromCartsListener" => null,
     "customRemoveUnpublishedVariationFromCartsListener" => null,
     "customUpdateCartTotalOnVariationPriceChangedListener" => null,
+    "customCheckVariationMinimalQuantityInCartsListener" => null,
 
     // Admin
     "customCartModel" => null,

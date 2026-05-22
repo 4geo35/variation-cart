@@ -4,9 +4,11 @@ namespace GIS\VariationCart;
 
 use GIS\Fileable\Traits\ExpandTemplatesTrait;
 use GIS\ProductVariation\Events\VariationDeletedEvent;
+use GIS\ProductVariation\Events\VariationMinimalOrderChangedEvent;
 use GIS\ProductVariation\Events\VariationPriceChangedEvent;
 use GIS\ProductVariation\Events\VariationUnpublishedEvent;
 use GIS\VariationCart\Helpers\CartActionsManager;
+use GIS\VariationCart\Listeners\CheckVariationMinimalQuantityInCartsListener;
 use GIS\VariationCart\Listeners\RemoveDeletedVariationFromCartsListener;
 use GIS\VariationCart\Listeners\RemoveUnpublishedVariationFromCartsListener;
 use GIS\VariationCart\Listeners\UpdateCartTotalOnVariationPriceChangedListener;
@@ -121,5 +123,9 @@ class VariationCartServiceProvider extends ServiceProvider
         $listenerClass = config("variation-cart.customUpdateCartTotalOnVariationPriceChangedListener") ??
             UpdateCartTotalOnVariationPriceChangedListener::class;
         Event::listen(VariationPriceChangedEvent::class, $listenerClass);
+
+        $listenerClass = config("variation-cart.customCheckVariationMinimalQuantityInCartsListener") ??
+            CheckVariationMinimalQuantityInCartsListener::class;
+        Event::listen(VariationMinimalOrderChangedEvent::class, $listenerClass);
     }
 }
