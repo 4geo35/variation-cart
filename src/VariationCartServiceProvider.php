@@ -7,6 +7,7 @@ use GIS\ProductVariation\Events\VariationDeletedEvent;
 use GIS\ProductVariation\Events\VariationMinimalOrderChangedEvent;
 use GIS\ProductVariation\Events\VariationPriceChangedEvent;
 use GIS\ProductVariation\Events\VariationUnpublishedEvent;
+use GIS\VariationCart\Console\Commands\ClearOldCarts;
 use GIS\VariationCart\Helpers\CartActionsManager;
 use GIS\VariationCart\Listeners\CheckVariationMinimalQuantityInCartsListener;
 use GIS\VariationCart\Listeners\RemoveDeletedVariationFromCartsListener;
@@ -40,6 +41,12 @@ class VariationCartServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__ . "/resources/views", "vc");
         $this->loadRoutesFrom(__DIR__ . "/routes/web.php");
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                ClearOldCarts::class
+            ]);
+        }
 
         $this->expandConfiguration();
         $this->observeModels();

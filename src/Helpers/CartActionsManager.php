@@ -5,6 +5,7 @@ namespace GIS\VariationCart\Helpers;
 use GIS\ProductVariation\Interfaces\ProductVariationInterface;
 use GIS\VariationCart\Interfaces\CartInterface;
 use GIS\VariationCart\Models\Cart;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Cookie;
@@ -13,6 +14,16 @@ use Illuminate\Support\Facades\Log;
 
 class CartActionsManager
 {
+    public function getExpiredCarts(): Collection
+    {
+        $expiredDate = now()->subDays(config("variation-cart.expiredDays"))->toDateTimeString();
+        $modelClass = config("variation-cart.customCartModel") ?? Cart::class;
+        return $modelClass::query()
+            ->whereNull("user_id")
+            ->whereDate("updated_at", "<", $expiredDate)
+            ->get();
+    }
+
     public function initCart(): CartInterface
     {
         $cart = $this->getCart();

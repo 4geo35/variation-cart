@@ -4,6 +4,7 @@ return [
     // Settings
     "enableCart" => true,
     "showDiscount" => true,
+    "expiredDays" => 30,
 
     // Web
     "customCartWebController" => null,

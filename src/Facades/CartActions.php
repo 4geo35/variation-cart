@@ -5,9 +5,12 @@ namespace GIS\VariationCart\Facades;
 use GIS\ProductVariation\Interfaces\ProductVariationInterface;
 use GIS\VariationCart\Helpers\CartActionsManager;
 use GIS\VariationCart\Interfaces\CartInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @method static Collection getExpiredCarts()
+ *
  * @method static CartInterface initCart()
  * @method static CartInterface|null getCart()
  *
