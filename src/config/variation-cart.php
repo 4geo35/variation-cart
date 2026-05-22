@@ -11,10 +11,12 @@ return [
     "useH1" => true,
     "cartPageTitle" => "Корзина",
     "checkoutPageTitle" => "Оформление заказа",
+    "checkoutCartHasBeenChangedMessage" => "Корзина была изменена",
 
     // Listeners
     "customRemoveDeletedVariationFromCartsListener" => null,
-    "RemoveUnpublishedVariationFromCartsListener" => null,
+    "customRemoveUnpublishedVariationFromCartsListener" => null,
+    "customUpdateCartTotalOnVariationPriceChangedListener" => null,
 
     // Admin
     "customCartModel" => null,

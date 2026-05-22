@@ -4,10 +4,12 @@ namespace GIS\VariationCart;
 
 use GIS\Fileable\Traits\ExpandTemplatesTrait;
 use GIS\ProductVariation\Events\VariationDeletedEvent;
+use GIS\ProductVariation\Events\VariationPriceChangedEvent;
 use GIS\ProductVariation\Events\VariationUnpublishedEvent;
 use GIS\VariationCart\Helpers\CartActionsManager;
 use GIS\VariationCart\Listeners\RemoveDeletedVariationFromCartsListener;
 use GIS\VariationCart\Listeners\RemoveUnpublishedVariationFromCartsListener;
+use GIS\VariationCart\Listeners\UpdateCartTotalOnVariationPriceChangedListener;
 use GIS\VariationCart\Livewire\Web\Catalog\AddVariationToCartWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartIcoWire;
 use GIS\VariationCart\Livewire\Web\Catalog\CartInfoWire;
@@ -94,7 +96,8 @@ class VariationCartServiceProvider extends ServiceProvider
     protected function initFacades(): void
     {
         $this->app->singleton("cart-actions", function () {
-            $cartActionsManagerClass = config("variation-cart.customCartActionsManager") ?? CartActionsManager::class;
+            $cartActionsManagerClass = config("variation-cart.customCartActionsManager") ??
+                CartActionsManager::class;
             return new $cartActionsManagerClass();
         });
     }
@@ -107,10 +110,16 @@ class VariationCartServiceProvider extends ServiceProvider
 
     protected function listenEvents(): void
     {
-        $listenerClass = config("variation-cart.customRemoveDeletedVariationFromCartsListener") ?? RemoveDeletedVariationFromCartsListener::class;
+        $listenerClass = config("variation-cart.customRemoveDeletedVariationFromCartsListener") ??
+            RemoveDeletedVariationFromCartsListener::class;
         Event::listen(VariationDeletedEvent::class, $listenerClass);
 
-        $listenerClass = config("variation-cart.RemoveUnpublishedVariationFromCartsListener") ?? RemoveUnpublishedVariationFromCartsListener::class;
+        $listenerClass = config("variation-cart.customRemoveUnpublishedVariationFromCartsListener") ??
+            RemoveUnpublishedVariationFromCartsListener::class;
         Event::listen(VariationUnpublishedEvent::class, $listenerClass);
+
+        $listenerClass = config("variation-cart.customUpdateCartTotalOnVariationPriceChangedListener") ??
+            UpdateCartTotalOnVariationPriceChangedListener::class;
+        Event::listen(VariationPriceChangedEvent::class, $listenerClass);
     }
 }

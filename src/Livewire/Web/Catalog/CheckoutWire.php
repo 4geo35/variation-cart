@@ -95,7 +95,7 @@ class CheckoutWire extends Component
     {
         $this->setInfo();
         if ($this->info->cartUpdated > $this->startCheckout) {
-            session()->flash("error", "Корзина была изменена");
+            session()->flash("error", config("variation-cart.checkoutCartHasBeenChangedMessage"));
             $this->setItems();
             $this->setStartTime();
             return false;
