@@ -14,7 +14,9 @@ class Cart extends Model implements CartInterface
 {
     protected $keyType = "string";
     public $incrementing = false;
-    protected $fillable = [];
+    protected $fillable = [
+        "total", "notify_at"
+    ];
 
     public function variations(): BelongsToMany
     {
