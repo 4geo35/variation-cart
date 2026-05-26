@@ -108,7 +108,7 @@ class CartActionsManager
         $cart = $customCart ?? $this->getCart();
         if (! $cart) return;
         $cart->variations()->detach();
-        $cart->save();
+//        $cart->save();
         $this->recalculateTotal($cart);
     }
 
@@ -125,8 +125,9 @@ class CartActionsManager
             $price = $variation->price;
             $total += $price * $pivot->quantity;
         }
-        $cart->total = $total;
-        $cart->save();
+        $cart->update([
+            "total" => $total
+        ]);
     }
 
     public function getCartInfo(CartInterface $cart = null): object
@@ -271,8 +272,9 @@ class CartActionsManager
         if ($userCart && $userCart->id !== $cart->id) {
             $this->mergeCarts($cart, $userCart);
         }
-        $cart->user_id = Auth::id();
-        $cart->save();
+        $cart->update([
+            "user_id" => Auth::id(),
+        ]);
     }
 
     protected function mergeCarts(CartInterface $anonymous, CartInterface $userCart): void
@@ -287,8 +289,9 @@ class CartActionsManager
             $userCart->delete();
         } catch (\Exception $exception) {
             Log::error("Не удалось удалить корзину {$userCart->id}");
-            $userCart->user_id = null;
-            $userCart->save();
+            $userCart->update([
+                "user_id" => Auth::id(),
+            ]);
         }
     }
 
