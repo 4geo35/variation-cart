@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Log;
 
 class CartActionsManager
 {
+    protected int $lastQuantity = 0;
+
+    public function __construct()
+    {
+        $this->lastQuantity = 0;
+    }
+
+    public function getLastQuantity(): int
+    {
+        return $this->lastQuantity;
+    }
+
     public function getExpiredCarts(): Collection
     {
         $expiredDate = now()->subDays(config("variation-cart.expiredDays"))->toDateTimeString();
@@ -62,7 +74,8 @@ class CartActionsManager
             $variation->id => ["quantity" => $quantity]
         ]);
         $this->recalculateTotal($cart);
-        $cart->lastQuantity = $quantity;
+        $this->lastQuantity = $quantity;
+//        $cart->lastQuantity = $quantity;
 //        session()->flash("addToCart-success", "Товар добавлен в корзину");
         return $cart;
     }
@@ -77,12 +90,14 @@ class CartActionsManager
         if (! $variation->published_at) {
             session()->flash("changeQuantity-error", "Товар закончился");
             $this->deleteItem($variation, $cart);
-            $cart->lastQuantity = 0;
+            $this->lastQuantity = 0;
+//            $cart->lastQuantity = 0;
             return $cart;
         }
         if ($variation->minimal_order && ($quantity < $variation->minimal_order)) {
             $this->deleteItem($variation, $cart);
-            $cart->lastQuantity = 0;
+            $this->lastQuantity = 0;
+//            $cart->lastQuantity = 0;
             return $cart;
         }
 
@@ -90,7 +105,8 @@ class CartActionsManager
             $variation->id => ["quantity" => $quantity]
         ]);
         $this->recalculateTotal($cart);
-        $cart->lastQuantity = $quantity;
+        $this->lastQuantity = $quantity;
+//        $cart->lastQuantity = $quantity;
         return $cart;
     }
 

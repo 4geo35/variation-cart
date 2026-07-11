@@ -5,6 +5,7 @@ namespace GIS\VariationCart\Models;
 use App\Models\User;
 use GIS\ProductVariation\Interfaces\ProductVariationInterface;
 use GIS\ProductVariation\Models\ProductVariation;
+use GIS\VariationCart\Facades\CartActions;
 use GIS\VariationCart\Interfaces\CartInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -104,5 +105,10 @@ class Cart extends Model implements CartInterface
         } else {
             return number_format($total, 0, ",", " ");
         }
+    }
+
+    public function getLastQuantityAttribute(): int
+    {
+        return CartActions::getLastQuantity();
     }
 }
