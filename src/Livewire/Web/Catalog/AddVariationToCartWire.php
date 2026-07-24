@@ -3,6 +3,7 @@
 namespace GIS\VariationCart\Livewire\Web\Catalog;
 
 use GIS\CategoryProduct\Interfaces\ProductInterface;
+use GIS\VariationCart\Traits\ChangeVariationCartQuantityTrait;
 use GIS\ProductVariation\Traits\InitFirstVariation;
 use GIS\VariationCart\Facades\CartActions;
 use Illuminate\View\View;
@@ -11,9 +12,7 @@ use Livewire\Component;
 
 class AddVariationToCartWire extends Component
 {
-    use InitFirstVariation;
-
-    public int $quantity = 0;
+    use InitFirstVariation, ChangeVariationCartQuantityTrait;
 
     public function mount(): void
     {
@@ -44,32 +43,5 @@ class AddVariationToCartWire extends Component
         if (! $this->variation) { return; }
         $this->variationId = $variationId;
         $this->quantity = CartActions::getCartItemQuantity($variationId);
-    }
-
-    public function increaseQuantity(): void
-    {
-        $this->quantity++;
-        $cart = CartActions::changeQuantity($this->variation, $this->quantity);
-        $this->quantity = $cart->lastQuantity ?? 0;
-        $this->dispatch("change-cart");
-    }
-
-    public function decreaseQuantity(): void
-    {
-        $this->quantity--;
-        if ($this->quantity <= 0) {
-            CartActions::deleteItem($this->variation);
-        } else {
-            $cart = CartActions::changeQuantity($this->variation, $this->quantity);
-            $this->quantity = $cart->lastQuantity ?? 0;
-        }
-        $this->dispatch("change-cart");
-    }
-
-    public function addToCart(): void
-    {
-        $cart = CartActions::addToCart($this->variation);
-        $this->quantity = $cart->lastQuantity ?? 0;
-        $this->dispatch("change-cart");
     }
 }
